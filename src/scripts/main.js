@@ -12,15 +12,17 @@ addEventListener('click', (event) => {
   const tbody = document.querySelector('tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
 
-  const firstValue = rows[0].children[index].textContent.trim();
-  const isNumeric = !isNaN(firstValue);
-
   rows.sort((a, b) => {
     const cellA = a.children[index].textContent.trim();
     const cellB = b.children[index].textContent.trim();
 
-    if (isNumeric) {
-      return Number(cellA) - Number(cellB);
+    const numA = Number(cellA);
+    const numB = Number(cellB);
+
+    const bothNumeric = !isNaN(numA) && !isNaN(numB);
+
+    if (bothNumeric) {
+      return numA - numB;
     }
 
     return cellA.localeCompare(cellB);
