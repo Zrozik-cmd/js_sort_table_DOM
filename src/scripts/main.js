@@ -1,6 +1,6 @@
 'use strict';
 
-addEventListener('click', event => {
+addEventListener('click', (event) => {
   const th = event.target.closest('th');
 
   if (!th) {
@@ -12,17 +12,18 @@ addEventListener('click', event => {
   const tbody = document.querySelector('tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
 
+  const firstValue = rows[0].children[index].textContent.trim();
+  const isNumeric = !isNaN(firstValue);
+
   rows.sort((a, b) => {
     const cellA = a.children[index].textContent.trim();
     const cellB = b.children[index].textContent.trim();
 
-    const valA = isNaN(cellA) ? cellA : Number(cellA);
-    const valB = isNaN(cellB) ? cellB : Number(cellB);
+    if (isNumeric) {
+      return Number(cellA) - Number(cellB);
+    }
 
-    if (valA > valB) return 1;
-    if (valA < valB) return -1;
-
-    return 0;
+    return cellA.localeCompare(cellB);
   });
 
   tbody.innerHTML = '';
